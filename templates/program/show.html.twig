@@ -11,13 +11,13 @@
             <p>Catégorie : {{ program.category.name }}</p>
             <h3>Saisons disponibles :</h3>
             <ul>
-                {% if program.season is empty %}
+                {% if program.seasons is empty %}
                     <p>Il n'y a pas de saisons disponible dans cette série !</p>
                 {%  endif %}
 
-            {% for season in program.season %}
+            {% for season in program.seasons %}
                 {{ dump(program) }}
-                <li><a href="{{ path('program_season_show', { "programId": program.id }, { "seasonId": season.id }) }}">Saison number {{ season.number }}</a></li>
+                <li><a href="{{ path('program_season_show', { program: program.id }, { season: season.id }) }}">Saison number {{ season.number }}</a></li>
                 <p>Synopsis : {{ season.description }}</p>
             {%  endfor %}
             </ul>

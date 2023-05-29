@@ -9,17 +9,17 @@
     <h1 class="mt-0">{{ program.title }}</h1>
     <p>Category : {{ program.category.name }}</p>
 
-    <h2>Saison : {{ seasons.number }}</h2>
-    <p>Description : {{ seasons.description }}</p>
+    <h2>Saison : {{ season.number }}</h2>
+    <p>Description : {{ season.description }}</p>
     <ul>
         <h2>Tous les épisodes :</h2>
-        {% if seasons.episodes is empty %}
+        {% if season.episodes is empty %}
         <p>Il n'y a pas d'épisodes pour le moment !</p>
         {%  endif %}
 
-        {% for episode in seasons.episodes %}
+        {% for episode in season.episodes %}
             <li>
-                <p>Episode #{{ episode.number }}</p>
+                <a href="{{ path ("program_episode_show", { program: program.id, season: season.id, episode: episode.id }) }}" >Episode #{{ episode.number }} . {{ episode.title }}</a>
                 <p>Titre : {{ episode.title }}</p>
                 <p>Synopsis : {{ episode.synopsis }}</p>
             </li>
