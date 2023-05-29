@@ -11,36 +11,71 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
 
     CONST PROGRAMS = [
-        ['name' => 'The Walking Dead',
+        [
+            'title' => 'The Walking Dead',
             'synopsis' => 'Des zombies envahissent la terre.',
             'category'=> 'Horreur',
+            'year' => 2021,
+            'poster' => 'https://picsum.photos/',
+            'country' => 'USA',
             ],
-        ['name' => 'La Reine Charlotte',
+        [
+            'title' => 'La Reine Charlotte',
             'synopsis' => "Promise au Roi d'Angleterre contre son gré, Charlotte arrive à Londres et découvre que la famille royale n'est pas ce qu'elle imaginait.",
             'category'=> 'Drame',
+            'year' => 2021,
+            'poster' => 'https://picsum.photos/',
+            'country' => 'USA',
             ],
-        ['name' => 'The Mandalorian',
+        [
+            'title' => 'The Mandalorian',
             'synopsis' => "Le Mandalorien se situe après la chute de l'Empire et avant l'émergence du Premier Ordre.",
             'category'=> 'Fantastique',
+            'year' => 2021,
+            'poster' => 'https://picsum.photos/',
+            'country' => 'USA',
             ],
-        ['name' => 'Firefly Lane',
+        [
+            'title' => 'Firefly Lane',
             'synopsis' => "Sur trente ans, les hauts et les bas de Kate et Tully qui, depuis l'adolescence, sont meilleures amies et se soutiennent dans les bons comme les mauvais moments.",
             'category'=> 'Drame',
+            'year' => 2020,
+            'poster' => 'https://picsum.photos/',
+            'country' => 'USA',
             ],
-        ['name' => 'The Boys',
+        [
+            'title' => 'The Boys',
             'synopsis' => "Le monde est rempli de super-héros qui sont gérés par la société Vought International. Elle s’occupe de leur promotion et leur commercialisation. Ils ne sont pas tous héroïques et parfaits.",
             'category'=> 'Fantastique',
+            'year' => 2019,
+            'poster' => 'https://picsum.photos/',
+            'country' => 'USA',
             ],
+        [
+            'title' => 'Arcane',
+            'synopsis' => "Championnes de leurs villes jumelles et rivales (la huppée Piltover et la sous-terraine Zaun), deux sœurs Vi et Powder se battent dans une guerre où font rage des technologies magiques et des perspectives diamétralement opposées.",
+            'category' => 'Animation',
+            'year' => 2021,
+            'poster' => 'https://picsum.photos/',
+            'country' => 'USA',
+            ]
     ];
 
     public function load(ObjectManager $manager)
     {
-        foreach (self::PROGRAMS as $key => $sousProgram) {
-            $program = new Program();
-            $program->setName($sousProgram ['name']);
-            $program->setSynopsis($sousProgram ['synopsis']);
-            $program->setCategory($this->getReference('category_' . $sousProgram['category']));
-            $manager->persist($program);
+        foreach (self::PROGRAMS as $program) {
+            $programForFixture = new Program();
+            $programForFixture
+                ->setTitle($program ['title'])
+                ->setSynopsis($program ['synopsis'])
+                ->setCountry($program ['country'])
+                ->setYear($program ['year'])
+                ->setPoster($program ['poster'])
+                ->setCategory($this->getReference('category_' . $program['category']));
+
+            $manager->persist($programForFixture);
+
+            $this->addReference('program_'.$program['title'], $programForFixture);
         }
         $manager->flush();
     }

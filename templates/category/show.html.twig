@@ -5,13 +5,15 @@
 {% block body %}
     <div class="media">
 
+        <h1>{{ category.name }}</h1>
+
         {% for program in programs %}
 
-        <img class="align-self-start mr-3" src="{{ program.poster }}" alt="{{ program.name }} poster">
+        <img class="align-self-start mr-3" src="{{ program.poster }}" alt="{{ program.title }} poster">
         <div class="media-body">
             <div>
                 <p>{{ program.id }}</p>
-                <h2><a href="{{ path('program_show', { 'id': program.id }) }}">{{ program.name }}</a></h2>
+                <h2><a href="{{ path('program_show', { 'id': program.id }) }}">{{ program.title }}</a></h2>
                 <p>{{ program.synopsis }}</p>
             </div>
             {% else %}

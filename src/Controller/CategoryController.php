@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Repository\ProgramRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,27 +12,40 @@ use App\Repository\CategoryRepository;
 #[Route('/category', name: 'category_')]
 class CategoryController extends AbstractController
 {
+    /**
+     * @param CategoryRepository $categoryRepository
+     * list all categories
+     * @return Response*
+     */
     #[Route('/', name: 'index')]
     public function index(CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findAll();
-
         return $this-> render('category/index.html.twig', ['categories' => $categories,]);
     }
 
+    /**
+     * @param string $categoryName
+     * @param CategoryRepository $categoryRepository
+     * List all programs from 1 category order by DESC and limit 3
+     * @param ProgramRepository $programRepository
+     * @return Response
+     */
     #[Route('/{categoryName}', name: 'show')]
-    public function show(string $categoryName, CategoryRepository $categoryRepository, ProgramRepository $programRepository): Response
+    public function show(
+        string $categoryName,
+        CategoryRepository $categoryRepository,
+        ProgramRepository $programRepository): Response
     {
-        $category = $categoryRepository->findOneBy(['name' => $categoryName]);
+        $category = $categoryRepository->findOneByName($categoryName);
 
-        if (!$category) {
+        if (null ===$category) {
             throw $this->createNotFoundException(
                 "Nous n'avons pas trouvé de séries correspondant à la catégory: '. $categoryName .'."
             );
         }
 
-        $programs = $programRepository->findBy(['category'=> $category], ['id'=>'DESC'], 3);
-
+        $programs = $programRepository->findByCategory($category, ['id'=>'DESC'], 3);
 
         if (null === $programs) {
             throw $this->createNotFoundException(
@@ -39,6 +53,8 @@ class CategoryController extends AbstractController
             );
         }
 
-        return $this-> render('category/show.html.twig', ['category' => $category, 'programs'=>$programs]);
+        return $this-> render('category/show.html.twig', [
+            'category' => $category,
+            'programs'=>$programs]);
     }
 }

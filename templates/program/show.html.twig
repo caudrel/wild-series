@@ -4,11 +4,18 @@
 
 {% block body %}
     <div class="media">
-        <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.name }} poster">
+        <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
         <div class="media-body">
-            <h1 class="mt-0">{{ program.name }}</h1>
+            <h1 class="mt-0">{{ program.title }}</h1>
             <p>{{ program.synopsis }}</p>
             <p>Catégorie : {{ program.category.name }}</p>
+            <h3>Seasons available :</h3>
+            <ul>
+            {% for season in program.seasons %}
+            <li>{{ season.number }}</li>
+                <p>{{ season.description }}</p>
+            {%  endfor %}
+            </ul>
         </div>
     </div>
 
