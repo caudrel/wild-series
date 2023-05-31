@@ -4,8 +4,8 @@
 
 {% block body %}
     <h1>Ajouter une catégorie : </h1>
-
     {{ form_start(form) }}
+    {{ form_errors(form) }}
     {{ form_widget(form) }}
     <button type="submit">Ajouter</button>
     {{ form_end(form) }}

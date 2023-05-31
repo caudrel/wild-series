@@ -17,7 +17,7 @@
 
             {% for season in program.seasons %}
                 {{ dump(program) }}
-                <li><a href="{{ path('program_season_show', { program: program.id }, { season: season.id }) }}">Saison number {{ season.number }}</a></li>
+                <li><a href="{{ path('program_season_show', { program: program.id }, { season: season.id }) }}">Saison numéro {{ season.number }}</a></li>
                 <p>Synopsis : {{ season.description }}</p>
             {%  endfor %}
             </ul>
