@@ -24,7 +24,7 @@ class Program
     #[Assert\NotBlank]
     #[Assert\length(
         max: 255,
-        maxMessage: 'Le titre {{value}} ne doit pas dépasser {{limit}} caractères',)]
+        maxMessage: 'Le titre ne doit pas dépasser 255 caractères',)]
     #[ORM\Column(name: 'title', type: 'string', length: 255, unique: true)]
     private ?string $title = null;
 

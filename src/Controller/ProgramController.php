@@ -50,15 +50,17 @@ class ProgramController extends AbstractController
 
 
 
-    #[Route('/{id<^[0-9]+$>}', name: 'show')]
+    #[Route('/{id}', name: 'show')]
     public function show(Program $program): Response
     {
         if (!$program) {
             throw $this->createNotFoundException(
-                "No program with id: '.$id.' found in program\'s table."
+                "No program with id:  found in program\'s table."
             );
         }
-        return $this-> render('program/show.html.twig', ['program' => $program]);
+        return $this->render('program/show.html.twig', [
+            'program' => $program
+        ]);
     }
 
     #[Route('/{program}/season/{season}', name: 'season_show')]

@@ -13,4 +13,9 @@
     <p>Titre de l'épisode : {{ episode.title }}</p>
     <p>Synopsis : {{ episode.synopsis }}</p>
 
+    <a href="{{ path('program_season_show', { program: program.id, season: season.id }) }}">
+        Retour à la saison
+    </a>
+
+
 {% endblock %}
