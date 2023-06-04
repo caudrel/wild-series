@@ -23,7 +23,7 @@ class ProgramController extends AbstractController
         return $this-> render('program/index.html.twig', ['programs' => $programs,]);
     }
 
-    #[Route('/new', name: 'new')]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProgramRepository $programRepository): Response
     {
         // Create de new Program Object
@@ -38,6 +38,9 @@ class ProgramController extends AbstractController
         // Was the form submitted ?
         if ($form->isSubmitted() && $form->isValid()) {
             $programRepository->save($program, true);
+
+            // Once the form is submitted n Valid and data inserted into database, define success flash message
+            $this->addFlash('success', 'La nouvelle série a bien été ajoutée.');
             // Redirect to programs list
             return $this->redirectToRoute('program_index');
         }
@@ -63,7 +66,7 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{program}/season/{season}', name: 'season_show')]
+    #[Route('/{program}/', name: 'program_show')]
     public function showSeason(Program $program, Season $season): Response
     {
         return $this->render('program/season_show.html.twig', [

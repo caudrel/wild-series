@@ -16,7 +16,7 @@
                 {%  endif %}
 
             {% for season in program.seasons %}
-                <li><a href="{{ path('program_season_show', { program: program.id, season: season.id }) }}">Saison : {{ season.number }}</a></li>
+                <li><a href="{{ path('app_season_index', { program: program.id, season: season.id }) }}">Saison : {{ season.number }}</a></li>
                 <p>Synopsis : {{ season.description }}</p>
                 <p>Année : {{ season.year }}</p>
             {%  endfor %}
