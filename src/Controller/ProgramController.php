@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Actor;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
@@ -67,11 +68,12 @@ class ProgramController extends AbstractController
     }
 
     #[Route('/{program}/', name: 'program_show')]
-    public function showSeason(Program $program, Season $season): Response
+    public function showSeason(Program $program, Season $season, Actor $actor): Response
     {
         return $this->render('program/season_show.html.twig', [
             'season' => $season,
-            'program' => $program
+            'program' => $program,
+            'actor' => $actor
         ]);
     }
 

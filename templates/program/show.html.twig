@@ -21,6 +21,14 @@
                 <p>Année : {{ season.year }}</p>
             {%  endfor %}
             </ul>
+
+            <h3>Acteurs de la série</h3>
+            <ul>
+                {% for actor in program.actors %}
+                    <li><a href="{{ path('app_actor_show', { id: actor.id }) }}">{{ actor.name }}</a></li>
+                    <p>{{ actor.name }}</p>
+                {%  endfor %}
+            </ul>
         </div>
     </div>
 
