@@ -21,7 +21,6 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
                 ->setNumber($faker->unique()->numberBetween(1,5))
                 ->setYear($faker->year(2023))
                 ->setDescription($faker->paragraph(5))
-
                 ->setProgram($this->getReference('program_'. ProgramFixtures::PROGRAMS[$i]['title']));
 
             $manager->persist($season);
