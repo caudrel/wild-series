@@ -7,12 +7,13 @@ use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Form\ProgramType;
-use App\Repository\SeasonRepository;
+use App\Service\ProgramDuration;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProgramRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -25,7 +26,7 @@ class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProgramRepository $programRepository): Response
+    public function new(Request $request, ProgramRepository $programRepository, SluggerInterface $slugger): Response
     {
         // Create de new Program Object
         $program = new Program();
@@ -38,6 +39,10 @@ class ProgramController extends AbstractController
 
         // Was the form submitted ?
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
+
             $programRepository->save($program, true);
 
             // Once the form is submitted n Valid and data inserted into database, define success flash message
@@ -45,6 +50,7 @@ class ProgramController extends AbstractController
             // Redirect to programs list
             return $this->redirectToRoute('program_index');
         }
+
 
         // Render the form
         return $this->render('program/new.html.twig', [
@@ -54,16 +60,16 @@ class ProgramController extends AbstractController
 
 
 
-    #[Route('/{id}', name: 'show')]
-    public function show(Program $program): Response
+    #[Route('/{slug}', name: 'show')]
+    public function show(Program $program, ProgramDuration $programDuration): Response
     {
-        if (!$program) {
-            throw $this->createNotFoundException(
-                "No program with id:  found in program\'s table."
-            );
-        }
+        $timeInMinutes = $programDuration->calculate($program);
+        $timeInDayHoursMinutes = $programDuration->convertisseurTime($programDuration->calculate($program));
+
         return $this->render('program/show.html.twig', [
-            'program' => $program
+            'program' => $program,
+            'programDuration' => $timeInMinutes,
+            'convertisseurTime' => $timeInDayHoursMinutes,
         ]);
     }
 
