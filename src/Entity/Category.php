@@ -11,8 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
-    #[Assert\NotBlank]
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
