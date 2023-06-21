@@ -18,6 +18,8 @@
         </tbody>
     </table>
 
+    <img src="{{ vich_uploader_asset(actor) }}" alt="{{ actor.name }}">
+
     <p>Séries dans lesquelles <b>{{ actor.name }}</b> est présent(e) :</p>
     <ul>
     {% for program in actor.programs %}
