@@ -1,0 +1,19 @@
+{% extends '_email.html.twig' %}
+
+{% block title %}New Program{% endblock %}
+
+{% block body %}
+
+<h2>La série "{{ program.title }}" vient d'être ajoutée!</h2>
+
+<p>Bonjour,</p>
+
+<p>La série {{ program.title }} vient d'être créé sur Wild Series</p>
+
+<p>Découvrez son synopsis :</p>
+<p>"{{program.synopsis }}"</p>
+
+
+<p>À bientôt sur Wild Series!</p>
+
+{% endblock %}

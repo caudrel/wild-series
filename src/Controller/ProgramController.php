@@ -10,10 +10,13 @@ use App\Form\ProgramType;
 use App\Service\ProgramDuration;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProgramRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Mime\Address;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -26,7 +29,7 @@ class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProgramRepository $programRepository, SluggerInterface $slugger): Response
+    public function new(Request $request, ProgramRepository $programRepository, SluggerInterface $slugger, MailerInterface $mailer): Response
     {
         // Create de new Program Object
         $program = new Program();
@@ -47,6 +50,15 @@ class ProgramController extends AbstractController
 
             // Once the form is submitted n Valid and data inserted into database, define success flash message
             $this->addFlash('success', 'La nouvelle série a bien été ajoutée.');
+
+            $email = (new Email())
+                ->from($this->getParameter('mailer_from'))
+                ->to('lozach@gmail.com')
+                ->subject('Une nouvelle série vient d\'être publiée !')
+                ->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program]));
+
+            $mailer ->send($email);
+
             // Redirect to programs list
             return $this->redirectToRoute('program_index');
         }
@@ -64,7 +76,7 @@ class ProgramController extends AbstractController
     public function show(Program $program, ProgramDuration $programDuration): Response
     {
         $timeInMinutes = $programDuration->calculate($program);
-        $timeInDayHoursMinutes = $programDuration->convertisseurTime($programDuration->calculate($program));
+        $timeInDayHoursMinutes = $programDuration->convertisseurTime($timeInMinutes);
 
         return $this->render('program/show.html.twig', [
             'program' => $program,

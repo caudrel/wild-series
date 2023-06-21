@@ -1,0 +1,18 @@
+{% extends '_email.html.twig' %}
+
+{% block title %}New Episode{% endblock %}
+
+{% block body %}
+
+<h2>L'épisode "{{ episode.title }}" vient d'être ajoutée!</h2>
+
+<p>Bonjour,</p>
+
+<p>Cet épisode vient compléter la saison {{ season.number }} de {{ program.title }}</p>
+
+<p>Découvrez son synopsis :</p>
+<p>"{{episode.synopsis }}"</p>
+
+    <a href="https://127.0.0.1:8000/episode/{{ episode.slug }}">Voir l'épisode</a>
+
+{% endblock %}
