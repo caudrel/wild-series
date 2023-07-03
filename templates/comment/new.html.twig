@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Comment{% endblock %}
+
+{% block body %}
+    <h1>Ajouter votre commentaire à cet épisode. L'épisode </h1>
+
+    {{ include('comment/_form.html.twig') }}
+
+    <a href="{{ path('app_episode_show', {'slug': episode.slug}) }}">Retour à l'épisode</a>
+{% endblock %}
